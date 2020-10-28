@@ -1,6 +1,10 @@
 # DearVincent
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.2.
+Little Art Project where it is possible to draw different figures using Math! It is hosted at [Here](http://dear-vincent.site), check it out :)
+
+For more details on the project head over to [Fun Art Project Built with Angular and Hosted on Google Cloud Platform](https://maplelatte.tech/?p=543&preview=true)
+
+Angular project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.2.
 
 ## Development server
 
@@ -14,14 +18,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
+## Further help on Angular CLI
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
