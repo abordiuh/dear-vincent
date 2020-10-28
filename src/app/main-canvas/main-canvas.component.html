@@ -1,0 +1,142 @@
+<canvas #canvas id="main_canvas"></canvas>
+<app-help-and-examples-popup class="helper-popup" [isOpen]="popUpOpen">
+  <button class="float-right" (click)="onExamplesCloseClick()">X</button>
+  <h5 class="mt-2 ">Operations:</h5>
+  <table>
+    <thead>
+      <tr>
+        <th>Operation</th>
+        <th style="text-align:left">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>+ , - , * , /</td>
+        <td style="text-align:left">&nbsp; Add, Substract, Multiply, Divide</td>
+      </tr>
+      <tr>
+        <td>% or mod, ^ , !</td>
+        <td style="text-align:left">&nbsp; Modulus, Power, Factorial</td>
+      </tr>
+      <tr>
+        <td> & , ~ , |, ^\ </td>
+        <td style="text-align:left">&nbsp; Bitwise: and, not, or, xor</td>
+      </tr>
+      <tr>
+        <td>&lt;&lt; , &gt;&gt; , &gt;&gt;&gt;,</td>
+        <td style="text-align:left">&nbsp; Left and right shift, logical shift</td>
+      </tr>
+      <tr>
+        <td>sin,cos,tan,deg,rad</td>
+        <td style="text-align:left">&nbsp; Trigonometry</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="mt-2 ">Examples:</h5>
+
+  <button class="btn btn-light" (click)="onExamplesHeartClick()">Heart (Cartesian)</button>
+  <button class="btn btn-light" (click)="onExamplesFlowerClick()">Flower (Polar)</button>
+</app-help-and-examples-popup>
+
+<button class="openbtn" (click)="toggleSidePanel()">&#9776; Configure</button>
+<div *ngIf="errors" class="alert_msg alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Wow!</strong> {{errors.error}}
+</div>
+<div #sidepanel id="mySidepanel" width="300px" class="sidepanel d-flex flex-column ">
+  <a href="javascript:void(0)" class="closebtn" (click)="toggleSidePanel()">&times;</a>
+  <button class="btn-md p-1 m-2 mt-4 btn-dark" (click)="onDrawClick()">I feel art-ish!</button>
+  <h5 class="ml-3 mb-1 text-white-50">Configuration</h5>
+  <p>
+    <input type="radio" class="ml-3 m-2" value="c" name="coordinates_select" [checked]="cparams.coordinates === 'c'"
+      [value]="'c'" [(ngModel)]="cparams.coordinates"> <label class="text-white-50">Cartesian</label>
+    <input type="radio" class="m-2" value="p" name="coordinates_select" [checked]="cparams.coordinates === 'p'"
+      [value]="'p'" [(ngModel)]="cparams.coordinates"> <label class="text-white-50">Polar</label>
+  </p>
+  <h5 class="ml-3 mb-1 text-white-50">X Axis</h5>
+  <div class="row pl-3">
+    <div class="col-md-6">
+      <label class="ml-2 text-white-50">Min X:</label>
+      <div class="form-group w-75">
+        <input type="number" class="ml-2 w-100" [ngClass]="{'border border-danger': errors && errors.field == 'minX'}"
+          placeholder="Min" [value]="cparams.minX"
+          (input)="cparams.minX = $event.target.value; updateQueryParameters()">
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <label class="ml-2 text-white-50">Max X:</label>
+      <div class="form-group w-75 ">
+        <input type="number" class="ml-2 w-100" placeholder="Max" [value]="cparams.maxX"
+          (input)="cparams.maxX = $event.target.value; updateQueryParameters()"
+          [ngClass]="{'border border-danger': errors && errors.field == 'minX'}">
+      </div>
+    </div>
+  </div>
+  <label class="ml-4 text-white-50">Equation for X:</label>
+  <input type="text" class="pl-2 ml-4 mr-4" placeholder="Equation X" [value]="cparams.equationX"
+    (input)="cparams.equationX = $event.target.value; updateQueryParameters()"
+    [ngClass]="{'border border-danger': errors && errors.field == 'equationX'}">
+  <h5 class="ml-3 mt-2 mb-1 text-white-50">Y Axis</h5>
+  <div class="row pl-3">
+    <div class="col-md-6">
+      <label class="ml-2 text-white-50">Min Y:</label>
+      <div class="form-group w-75">
+        <input type="number" class="ml-2 w-100" placeholder="Min" [value]="cparams.minY"
+          (input)="cparams.minY = $event.target.value; updateQueryParameters()"
+          [ngClass]="{'border border-danger': errors && errors.field == 'minY'}">
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <label class="ml-2 text-white-50">Max Y:</label>
+      <div class="form-group w-75 ">
+        <input type="number" class="ml-2 w-100" placeholder="Max" [value]="cparams.maxY"
+          (input)="cparams.maxY = $event.target.value; updateQueryParameters()"
+          [ngClass]="{'border border-danger': errors && errors.field == 'minY'}">
+      </div>
+    </div>
+  </div>
+  <label class="ml-4 text-white-50">Equation for Y:</label>
+  <input type="text" class="pl-2 ml-4 mr-4" placeholder="Equation Y" [value]="cparams.equationY"
+    (input)="cparams.equationY = $event.target.value; updateQueryParameters()"
+    [ngClass]="{'border border-danger': errors && errors.field == 'equationY'}">
+  <h5 class="ml-3 mt-2 mb-1 text-white-50">Animation</h5>
+  <div class="row p-1 m-2">
+    <div class="col-md-6 ">
+      <div class="form-group">
+        <label class="ml-2 text-white-50">Slowness:</label>
+        <input type="range" class="ml-2 w-100" placeholder="Step" min="1" max="100" value="50"
+          [value]="cparams.animSpeed" (input)="cparams.animSpeed = $event.target.value; updateQueryParameters()"
+          [ngClass]="{'border border-danger': cparams.animSpeed <= 0}">
+      </div>
+    </div>
+    <div class="col-md-5 ">
+      <div class="form-group w-100 ">
+        <label class="ml-2 text-white-50">Step:</label>
+        <input type="number" class="ml-2 w-100" placeholder="Step" [value]="cparams.ittStep"
+          (input)="cparams.ittStep = $event.target.value; updateQueryParameters()"
+          [ngClass]="{'border border-danger': errors && errors.field == 'ittStep'}">
+      </div>
+    </div>
+  </div>
+  <h5 class="ml-3 mt-2 mb-1 text-white-50">Drawing</h5>
+  <div class="row p-1 ml-2">
+    <div class="col-md-6 ">
+      <div class="form-group">
+        <label class="ml-2 text-white-50">Color 1:</label>
+        <input type="color" class=" ml-2" placeholder="Step" [value]="cparams.color1"
+          (input)="cparams.color1 = $event.target.value; updateQueryParameters()">
+        <label class="ml-2 text-white-50">Color 2:</label>
+        <input type="color" class=" ml-2" placeholder="Step" [value]="cparams.color2"
+          (input)="cparams.color2 = $event.target.value; updateQueryParameters()">
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <div class="form-group w-100 ">
+        <label class="ml-2 text-white-50"><input type="checkbox" name="checkbox" [(ngModel)]="cparams.showLine"> Show
+          Line</label>
+        <label class="ml-2 text-white-50"><input type="checkbox" name="checkbox" [(ngModel)]="cparams.showPoints"> Show
+          Points</label>
+      </div>
+    </div>
+  </div>
+  <button class="btn-md p-1 m-2 btn-dark" (click)="onExamplesClick()">Examples</button>
+</div>

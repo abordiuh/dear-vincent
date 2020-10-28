@@ -1,1 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+/* SCSS Document */
+
+.center {
+	margin: 20% 0 0 0;
+}
+
+.header_font {
+	font-family: letter-gothic-std, monospace;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 420%;
+	color: #FFFFFF;
+}
+
+.sub_header_font {
+	font-family: letter-gothic-std, monospace;
+	font-weight: 200;
+	font-style: normal;
+	font-size: 180%;
+	color: #FFFFFF;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+// .bg{
+//   background: url('./assets/images/dv-back.png') no-repeat center center fixed;
+//   background-position: top center;
+//   -webkit-background-size: cover;
+//   -moz-background-size: cover;
+//   -o-background-size: cover;
+//   background-size: cover;
+// }
+
+.bg {
+  /* The image used */
+  background-image: url("./assets/images/dv-back.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  overflow-x: hidden; /* Disable horizontal scroll */
+}
