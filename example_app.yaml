@@ -1,0 +1,9 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+handlers:
+- url: /
+  static_files: dear-vincent/index.html
+  upload: dear-vincent/index.html
+- url: /
+  static_dir: dear-vincent
